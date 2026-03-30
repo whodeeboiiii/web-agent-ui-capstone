@@ -1,0 +1,4016 @@
+📝 Logging to: /Users/ilop0/Documents/4학년 2학기/인종설/BrowserGym/logs/agent_log_drag-circle_20260326_213503.txt
+
+📋 Shortened log: /Users/ilop0/Documents/4학년 2학기/인종설/BrowserGym/logs_shortened/short_log_drag-circle_20260326_213503.txt
+
+🎯 Task Goal: ({'type': 'text', 'text': 'Drag the circle left then press Submit.'},)
+
+⏱️  Max steps: 100
+
+
+============================================================
+  STEP 1
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+
+# History of interaction with the task:
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The current state of the page shows that I need to drag a circle to the left. However, I do not have the bid for the circle element in the AXTree. I will need to find the circle element and then perform the drag action. Since the circle is likely part of the SVG, I will attempt to drag it left by specifying the coordinates relative to its position.
+</think>
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 911 | out: 124 | cost: $0.000211
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 2
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+I previously attempted to drag the circle left by 50 units, but it seems that the action did not succeed as expected. The circle is represented by the bid '9', and I need to ensure that the drag action is executed correctly. I will try dragging the circle left again, but this time I will specify a smaller distance to see if that works better. I will drag it left by 10 units instead.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1017 | out: 107 | cost: $0.000217
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 3
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+I previously attempted to drag the circle left by 50 units and then by 10 units, but it seems that the circle has not moved as expected. I will try dragging the circle left by a smaller distance to ensure it moves correctly. I will drag it left by 10 units this time.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1039 | out: 83 | cost: $0.000206
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 4
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions attempted to drag the circle left, but it seems that the drag distance was not sufficient to achieve the desired effect. I will now attempt to drag the circle further left by a larger distance to ensure it moves adequately. I will drag it left by 50 units again, as this should be enough to move it significantly.
+</think>
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1061 | out: 90 | cost: $0.000213
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 5
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions attempted to drag the circle left, but it seems that the drag distance was not sufficient to achieve the desired position. I will try dragging the circle left again, but this time I will increase the drag distance to ensure it moves further left. I will drag it left by 100 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1083 | out: 84 | cost: $0.000213
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 6
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+I have previously attempted to drag the circle left multiple times, but it seems that the circle has not moved as expected. I will try dragging the circle left again, but this time I will use a smaller distance to ensure that it registers the movement correctly. I will drag it left by 10 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1105 | out: 84 | cost: $0.000216
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 7
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions attempted to drag the circle left, but it seems that the drag movements were not effective in achieving the desired position. I will try to drag the circle left again, but this time I will use a larger distance to ensure it moves sufficiently. I will drag it left by 100 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1127 | out: 84 | cost: $0.000219
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 8
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions attempted to drag the circle left, but it seems that the drag movements were not effective in achieving the desired position. I will try dragging the circle left again, but this time I will use a smaller distance to ensure it registers correctly. I will drag it left by 10 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1149 | out: 83 | cost: $0.000222
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 9
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully moved the circle to the left as intended. I will try dragging the circle left by a smaller amount to see if that works better. I will attempt to drag it left by 10 units this time.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1171 | out: 70 | cost: $0.000218
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 10
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully dragged the circle to the left as intended. I will attempt to drag the circle left again, but this time I will use a smaller distance to ensure it moves correctly. I will drag it left by 10 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1193 | out: 73 | cost: $0.000223
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 11
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully dragged the circle to the left as intended. I will attempt to drag the circle left again, but this time I will use a smaller distance to ensure it moves correctly. I will drag it left by 10 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1215 | out: 73 | cost: $0.000226
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 12
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully moved the circle to the left as intended. I will attempt to drag the circle left by a smaller increment to see if that works. I will try dragging it left by 10 units this time.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1237 | out: 69 | cost: $0.000227
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 13
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The circle has not been successfully dragged to the left yet. I will attempt to drag the circle left again, this time by a smaller distance of 10 units to see if that achieves the desired effect. 
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1259 | out: 65 | cost: $0.000228
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 14
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully moved the circle to the left as intended. I will try dragging the circle left by a smaller amount to see if that works better. I will attempt to drag it left by 10 units this time.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1281 | out: 70 | cost: $0.000234
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 15
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully moved the circle to the left as intended. I will attempt to drag the circle left by a smaller increment to see if that works. I will try dragging it left by 10 units this time.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1303 | out: 69 | cost: $0.000237
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 16
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully dragged the circle to the left as intended. I will attempt to drag the circle left again, but this time I will use a larger distance to ensure it moves sufficiently. I will drag it left by 50 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1325 | out: 73 | cost: $0.000243
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 17
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 15
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have not successfully dragged the circle to the left as intended. I will attempt to drag the circle left again, but this time I will use a smaller distance to ensure it moves correctly. I will drag it left by 10 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1347 | out: 73 | cost: $0.000246
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 18
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 15
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 16
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have involved dragging the circle left by small increments, but it seems that the circle has not yet reached the desired position. I will attempt to drag the circle left by a larger amount to ensure it moves sufficiently to the left. After that, I will press the Submit button to complete the task.
+</think>
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1369 | out: 85 | cost: $0.000256
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 19
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 15
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 16
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 17
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The circle has not been successfully dragged to the left yet. I will attempt to drag the circle further left by a larger amount to ensure it moves sufficiently. I will drag it left by 100 units this time, as previous attempts with smaller increments have not achieved the desired position.
+</think>
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1391 | out: 79 | cost: $0.000256
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 20
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 15
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 16
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 17
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 18
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have involved dragging the circle left, but it seems that the circle has not moved as expected. I will attempt to drag the circle left again, this time by a larger amount to ensure it moves sufficiently. I will drag it left by 100 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1413 | out: 77 | cost: $0.000258
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 21
+============================================================
+📍 URL: file:///Users/ilop0/Documents/4%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB%202%E1%84%92%E1%85%A1%E1%86%A8%E1%84%80%E1%85%B5/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%89%E1%85%A5%E1%86%AF/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/drag-circle.html
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Drag the circle left then press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Drag Circle Task', focused
+	[13] SvgRoot '', visible
+		graphics-symbol ''
+	[14] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+## Error from previous action:
+Error: Locator.count: Error: Selector "internal:testid=[bid="0"s] >> :scope" resolved to <html bid="0" browsergym_set_of_marks="0" browsergym_v…>…</html>, <iframe> was expected
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+drag_and_drop('9', '0,-50')  # Assuming the circle is at position (0,0) and I want to drag it left by 50 units.
+</action>
+
+## step 1
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 2
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 3
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 4
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 5
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 6
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 7
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 8
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 9
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 10
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 11
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 12
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 13
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 14
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 15
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 16
+
+<action>
+drag_and_drop('9', '0,-10')
+</action>
+
+## step 17
+
+<action>
+drag_and_drop('9', '0,-50')
+</action>
+
+## step 18
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+## step 19
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+  [ASSISTANT]
+<think>
+The previous actions have involved dragging the circle left, but it seems that the circle has not been moved sufficiently to the left. I will attempt to drag the circle further left by a larger amount to ensure it reaches the desired position. I will drag it left by 100 units.
+</think>
+
+<action>
+drag_and_drop('9', '0,-100')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 1435 | out: 79 | cost: $0.000263
+────────────────────────────────────────────────────────────
