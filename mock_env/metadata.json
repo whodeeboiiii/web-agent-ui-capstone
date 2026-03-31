@@ -1,0 +1,67 @@
+{
+  "source_urls": {
+    "home": "https://www.trip.com/",
+    "search": "https://www.trip.com/flights/jeju-to-seoul/tickets-cju-gmp/?dcity=cju&acity=gmp&ddate=20260407&triptype=ow&class=y&quantity=1"
+  },
+  "crawled_at": "2026-03-31T20:29:32.250488",
+  "n_flights": 10,
+  "agent_flow": "home.html → (Search) → flight_list.html → (Select) → flight_detail_N.html",
+  "selectors_used": {
+    "home": {
+      "flights_tab": "li.mc-srh-box__tab-item",
+      "oneway": "label:has-text('One-way')",
+      "from_input": "input[placeholder='Leaving from']",
+      "to_input": "input[placeholder='Going to']",
+      "search_button": "button:has-text('Search'), .nh_sp-btn2"
+    },
+    "list": {
+      "flight_card": ".result-item.J_FlightItem",
+      "select_button": "button.c-result-operate__btn"
+    },
+    "detail": {
+      "modal": ".flt-page-modal",
+      "close_button": "i[aria-label='Close']"
+    }
+  },
+  "files": {
+    "home": "home.html",
+    "list": "flight_list.html",
+    "details": [
+      "flight_detail_1.html",
+      "flight_detail_2.html",
+      "flight_detail_3.html",
+      "flight_detail_4.html",
+      "flight_detail_5.html",
+      "flight_detail_6.html",
+      "flight_detail_7.html",
+      "flight_detail_8.html",
+      "flight_detail_9.html",
+      "flight_detail_10.html"
+    ],
+    "raw": {
+      "home": "raw/home_raw.html",
+      "list": "raw/flight_list_raw.html",
+      "details": [
+        "raw/flight_detail_raw_1.html",
+        "raw/flight_detail_raw_2.html",
+        "raw/flight_detail_raw_3.html",
+        "raw/flight_detail_raw_4.html",
+        "raw/flight_detail_raw_5.html",
+        "raw/flight_detail_raw_6.html",
+        "raw/flight_detail_raw_7.html",
+        "raw/flight_detail_raw_8.html",
+        "raw/flight_detail_raw_9.html",
+        "raw/flight_detail_raw_10.html"
+      ]
+    }
+  },
+  "task": {
+    "description": "Trip.com 제주(CJU) → 서울(GMP) 편도 항공편 검색 결과 페이지에서 조건에 맞는 항공편을 선택하여 상세 정보(수하물 규정, 취소 정책)를 확인하라.",
+    "goal": "항공편 목록에서 가장 저렴한 항공편을 찾아 상세 페이지로 이동하고, 수하물 규정과 취소 수수료를 확인한 후 해당 정보를 보고하라.",
+    "modality_conditions": {
+      "DOM_only": "use_screenshot=False, use_html=True",
+      "Screenshot_only": "use_screenshot=True,  use_html=False",
+      "Both": "use_screenshot=True,  use_html=True"
+    }
+  }
+}
