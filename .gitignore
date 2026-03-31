@@ -1,0 +1,9 @@
+.DS_Store
+.venv/
+.env
+logs/
+logs_shortened/
+webarena/
+miniwob-plusplus/
+__pycache__/
+*.pyc
