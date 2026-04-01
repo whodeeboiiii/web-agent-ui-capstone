@@ -1,9 +1,9 @@
 {
   "source_urls": {
     "home": "https://www.trip.com/",
-    "search": "https://www.trip.com/flights/jeju-to-seoul/tickets-cju-gmp/?dcity=cju&acity=gmp&ddate=20260407&triptype=ow&class=y&quantity=1"
+    "search": "https://www.trip.com/flights/jeju-to-seoul/tickets-cju-gmp/?dcity=cju&acity=gmp&ddate=20260408&triptype=ow&class=y&quantity=1"
   },
-  "crawled_at": "2026-03-31T20:29:32.250488",
+  "crawled_at": "2026-04-01T16:41:22.340727",
   "n_flights": 10,
   "agent_flow": "home.html → (Search) → flight_list.html → (Select) → flight_detail_N.html",
   "selectors_used": {

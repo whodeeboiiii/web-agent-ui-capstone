@@ -182,131 +182,19 @@ async def collect_home_raw_html(playwright) -> str:
         except Exception:
             pass
 
-    # ── 0-3. Flights 탭 클릭 ────────────────────────────────────────────────
-    print("  ✈️  Flights 탭 클릭 중...")
-    flights_tab = page.locator(SEL_FLIGHTS_TAB).filter(has_text="Flights").first
-    try:
-        await flights_tab.click(timeout=10_000)
-        print("    ✅ Flights 탭 선택 완료")
-        await page.wait_for_timeout(1_500)
-    except Exception as e:
-        print(f"    ⚠️  Flights 탭 클릭 실패: {e}")
+    # ── 0-3. 페이지 안정화 대기 후 HTML 덤프 ─────────────────────────────────
+    # 검색 폼은 rewrite_home_page()에서 MOCK_SEARCH_WIDGET_HTML로 완전 교체하므로
+    # 크롤링 단계에서 폼 조작(Flights 탭, From/To 입력 등)은 불필요.
+    # 홈 페이지의 구조(nav, sidebar, 헤더, 배너)만 덤프하면 충분.
+    await page.wait_for_timeout(2_000)
 
-    # ── 0-4. One-way 선택 ─────────────────────────────────────────────────────
-    print("  🔘 One-way 선택 중...")
-    try:
-        # 'One-way' 텍스트가 포함된 label 또는 라디오 버튼 클릭
-        oneway = page.locator("label, div, span").filter(has_text="One-way").first
-        await oneway.click(timeout=5_000)
-        print("    ✅ One-way 선택 완료")
-        await page.wait_for_timeout(800)
-    except Exception as e:
-        print(f"    ⚠️  One-way 선택 실패: {e}")
-
-    # ── 0-5. 출발지 입력: Jeju (CJU) ─────────────────────────────────────────
-    # 드롭다운 셀렉터: Trip.com은 #m-flight-poi-list 안에 자동완성 항목을 렌더링함
-    AUTOCOMPLETE_LIST = "#m-flight-poi-list"
-    AUTOCOMPLETE_ITEM = "#m-flight-poi-list li"
-
-    print("  🛫 출발지 입력: Jeju...")
-    try:
-        from_input = page.locator(SEL_FROM_INPUT).first
-        await from_input.click(timeout=5_000)
-        await page.wait_for_timeout(300)
-        await from_input.fill("Jeju", timeout=5_000)
-
-        # 자동완성 드롭다운이 나타날 때까지 대기
-        try:
-            await page.wait_for_selector(AUTOCOMPLETE_ITEM, timeout=4_000)
-        except PlaywrightTimeoutError:
-            pass
-
-        # 드롭다운 첫 번째 항목 클릭 (Jeju 관련)
-        items = page.locator(AUTOCOMPLETE_ITEM)
-        if await items.count() > 0:
-            await items.first.click(timeout=5_000)
-            print("    ✅ Jeju 자동완성 첫 번째 항목 선택")
-        else:
-            await from_input.press("Enter")
-            print("    ✅ Jeju 입력 후 Enter")
-
-        # 드롭다운이 완전히 닫힐 때까지 대기 (다음 필드 클릭 전)
-        try:
-            await page.wait_for_selector(AUTOCOMPLETE_LIST, timeout=3_000, state="hidden")
-        except PlaywrightTimeoutError:
-            # 닫히지 않으면 Escape로 강제 닫기
-            await page.keyboard.press("Escape")
-            await page.wait_for_timeout(500)
-        print("    ✅ 출발지 드롭다운 닫힘 확인")
-    except Exception as e:
-        print(f"    ⚠️  출발지 입력 실패: {e}")
-        await page.keyboard.press("Escape")
-        await page.wait_for_timeout(500)
-
-    # ── 0-6. 도착지 입력: Seoul Gimpo (GMP) ───────────────────────────────────
-    print("  🛬 도착지 입력: Seoul Gimpo (GMP)...")
-    try:
-        # 출발지 드롭다운이 완전히 사라진 것을 확인한 후 클릭
-        await page.wait_for_selector(AUTOCOMPLETE_LIST, timeout=2_000, state="hidden")
-    except PlaywrightTimeoutError:
-        await page.wait_for_timeout(500)
-
-    try:
-        to_input = page.locator(SEL_TO_INPUT).first
-        # force=True: 위를 덮는 요소가 있어도 강제 클릭
-        await to_input.click(timeout=5_000, force=True)
-        await page.wait_for_timeout(300)
-        await to_input.fill("Gimpo", timeout=5_000)
-
-        # 자동완성 드롭다운이 나타날 때까지 대기
-        try:
-            await page.wait_for_selector(AUTOCOMPLETE_ITEM, timeout=4_000)
-        except PlaywrightTimeoutError:
-            pass
-
-        # 드롭다운 항목 중 'Gimpo' 포함 항목 선택
-        items = page.locator(AUTOCOMPLETE_ITEM)
-        count = await items.count()
-        clicked = False
-        for idx in range(count):
-            item = items.nth(idx)
-            text = await item.inner_text()
-            if "Gimpo" in text or "GMP" in text:
-                await item.click(timeout=5_000)
-                print(f"    ✅ '{text.strip()[:40]}' 선택")
-                clicked = True
-                break
-        if not clicked:
-            if count > 0:
-                await items.first.click(timeout=5_000)
-                print("    ✅ 도착지 자동완성 첫 번째 항목 선택")
-            else:
-                await to_input.press("Enter")
-                print("    ✅ Gimpo 입력 후 Enter")
-
-        # 드롭다운 닫힘 대기
-        try:
-            await page.wait_for_selector(AUTOCOMPLETE_LIST, timeout=3_000, state="hidden")
-        except PlaywrightTimeoutError:
-            await page.keyboard.press("Escape")
-            await page.wait_for_timeout(500)
-        print("    ✅ 도착지 드롭다운 닫힘 확인")
-    except Exception as e:
-        print(f"    ⚠️  도착지 입력 실패: {e}")
-        await page.keyboard.press("Escape")
-        await page.wait_for_timeout(500)
-
-    # ── 0-7. 날짜 입력은 생략 (현재 폼 상태 그대로 덤프) ──────────────────────
-    # 날짜 필드는 에이전트가 직접 선택하는 태스크로 남겨둠
-    # (날짜 피커를 닫아서 폼의 나머지 부분이 보이도록 대기)
-    await page.wait_for_timeout(1_000)
-
-    # ── 0-8. 현재 페이지 HTML 덤프 ──────────────────────────────────────────
+    # ── 0-4. 현재 페이지 HTML 덤프 ──────────────────────────────────────────
     home_html = await page.content()
     print(f"  📄 홈 페이지 HTML 수집 완료 ({len(home_html):,} bytes)")
 
     await browser.close()
     return home_html
+
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -705,8 +593,34 @@ def rewrite_detail_page(soup: BeautifulSoup, flight_idx: int) -> str:
     """
     항공편 상세 모달 페이지에서 닫기 버튼(×)을 ./flight_list.html 로 연결하는
     <a> 태그로 교체하고, 리스트 복귀 링크를 상단에 추가한다.
+    추가로 JS 제거로 인해 막힌 스크롤(Perfect Scrollbar) 속성을 CSS로 오버라이드하여 살린다.
     """
     list_path = "./flight_list.html"
+
+    # 스크롤 복구를 위한 강제 CSS 주입
+    style_tag = soup.new_tag("style")
+    style_tag.string = """
+        /* JS(Perfect Scrollbar) 및 React 모달에 의해 막힌 스크롤 강제 해제 */
+        body, html { overflow: auto !important; }
+        .flt-page-modal {
+            overflow-y: visible !important;
+            height: auto !important;
+            position: relative !important;
+        }
+        .flt-page-modal-body, .ps {
+            overflow-y: auto !important;
+            max-height: none !important;
+            touch-action: auto !important;
+        }
+        /* 불필요한 전체화면 마스크 숨김 처리 */
+        .modal-mask, .mask, [class*="mask-"] {
+            display: none !important;
+        }
+    """
+    if soup.head:
+        soup.head.append(style_tag)
+    elif soup.body:
+        soup.body.insert(0, style_tag)
 
     # 닫기 버튼 탐색: aria-label="Close" 인 <i> 태그
     close_btn = soup.find("i", attrs={"aria-label": "Close"})
@@ -736,83 +650,353 @@ def rewrite_detail_page(soup: BeautifulSoup, flight_idx: int) -> str:
     return str(soup)
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Step 3: 파일 저장
-# ──────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# 에이전트 실험용 검색 위젯 HTML
+# - Trip.com 실제 클래스명 참조 (CSS 상속을 위해)
+# - 탭: Hotels / Flights / Trains / Cars / Attractions (Flights 클릭 시 폼 노출)
+# - 폼 필드: 모두 빈 상태 (에이전트가 직접 입력)
+# - Search 버튼 → ./flight_list.html
+# ─────────────────────────────────────────────────────────────────────────────
+MOCK_SEARCH_WIDGET_HTML = """
+<div id="mock-search-widget" style="max-width:1100px;margin:0 auto;padding:0 16px 24px;">
+
+  <!-- ── Tab bar ──────────────────────────────────────────────── -->
+  <ul id="mock-tab-bar" role="tablist"
+      style="display:flex;list-style:none;margin:0 0 -1px;padding:0;gap:4px;">
+
+    <li role="tab" id="mock-tab-hotels" aria-selected="false"
+        onclick="mockSwitchTab('hotels')"
+        style="padding:12px 20px;border-radius:8px 8px 0 0;cursor:pointer;
+               font-size:15px;font-weight:600;background:#e8edf5;color:#555;
+               border:1px solid #d0d5dd;border-bottom:none;user-select:none;">
+      🏨 Hotels &amp; Homes
+    </li>
+
+    <li role="tab" id="mock-tab-flights" aria-selected="true"
+        onclick="mockSwitchTab('flights')"
+        style="padding:12px 20px;border-radius:8px 8px 0 0;cursor:pointer;
+               font-size:15px;font-weight:700;background:#fff;color:#006aff;
+               border:1px solid #d0d5dd;border-bottom:1px solid #fff;user-select:none;">
+      ✈️ Flights
+    </li>
+
+    <li role="tab" id="mock-tab-trains" aria-selected="false"
+        onclick="mockSwitchTab('trains')"
+        style="padding:12px 20px;border-radius:8px 8px 0 0;cursor:pointer;
+               font-size:15px;font-weight:600;background:#e8edf5;color:#555;
+               border:1px solid #d0d5dd;border-bottom:none;user-select:none;">
+      🚄 Trains
+    </li>
+
+    <li role="tab" id="mock-tab-cars" aria-selected="false"
+        onclick="mockSwitchTab('cars')"
+        style="padding:12px 20px;border-radius:8px 8px 0 0;cursor:pointer;
+               font-size:15px;font-weight:600;background:#e8edf5;color:#555;
+               border:1px solid #d0d5dd;border-bottom:none;user-select:none;">
+      🚗 Cars
+    </li>
+
+    <li role="tab" id="mock-tab-attractions" aria-selected="false"
+        onclick="mockSwitchTab('attractions')"
+        style="padding:12px 20px;border-radius:8px 8px 0 0;cursor:pointer;
+               font-size:15px;font-weight:600;background:#e8edf5;color:#555;
+               border:1px solid #d0d5dd;border-bottom:none;user-select:none;">
+      🎡 Attractions &amp; Tours
+    </li>
+  </ul>
+
+  <!-- ── Panel wrapper ─────────────────────────────────────────── -->
+  <div style="border:1px solid #d0d5dd;border-top:none;background:#fff;
+              border-radius:0 8px 8px 8px;padding:24px;">
+
+    <!-- ── Hotels panel (hidden) ── -->
+    <div id="mock-panel-hotels" role="tabpanel" class="mock-panel" style="display:none;">
+      <p style="color:#888;font-size:14px;">Hotel search is not available in this demo environment.</p>
+    </div>
+
+    <!-- ── Flights panel (visible by default) ── -->
+    <div id="mock-panel-flights" role="tabpanel" class="mock-panel" style="display:block;">
+
+      <!-- Trip type radios -->
+      <div class="nh_filterType"
+           style="display:flex;align-items:center;gap:24px;margin-bottom:16px;font-size:14px;">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="radio" name="mock-trip-type" value="round-trip" id="mock-rt" checked
+                 aria-label="Round-trip"
+                 style="accent-color:#006aff;width:15px;height:15px;">
+          <span>Round-trip</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="radio" name="mock-trip-type" value="one-way" id="mock-ow"
+                 aria-label="One-way"
+                 style="accent-color:#006aff;width:15px;height:15px;">
+          <span>One-way</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="radio" name="mock-trip-type" value="multi-city" id="mock-mc"
+                 aria-label="Multi-city"
+                 style="accent-color:#006aff;width:15px;height:15px;">
+          <span>Multi-city</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:12px;">
+          <input type="checkbox" name="mock-direct" id="mock-direct"
+                 aria-label="Direct flights only"
+                 style="accent-color:#006aff;width:15px;height:15px;">
+          <span>Direct flights only</span>
+        </label>
+      </div>
+
+      <!-- Search input row -->
+      <div class="m-searchForm"
+           style="display:flex;align-items:stretch;gap:8px;">
+
+        <!-- Leaving from -->
+        <div style="flex:2;border:1.5px solid #cfd8e3;border-radius:6px;
+                    padding:10px 14px;min-width:0;background:#fff;">
+          <div style="font-size:11px;color:#888;font-weight:600;
+                      letter-spacing:.4px;margin-bottom:3px;">LEAVING FROM</div>
+          <input type="text"
+                 id="mock-from"
+                 name="from"
+                 class="module-input"
+                 placeholder="Leaving from"
+                 aria-label="Leaving from"
+                 data-testid="flight-from-input"
+                 autocomplete="off"
+                 style="width:100%;border:none;outline:none;font-size:16px;
+                        font-weight:700;color:#1a1a1a;padding:0;
+                        background:transparent;font-family:inherit;">
+        </div>
+
+        <!-- Swap button -->
+        <div style="display:flex;align-items:center;flex-shrink:0;">
+          <button type="button"
+                  id="mock-swap-btn"
+                  aria-label="Swap departure and arrival"
+                  onclick="(function(){
+                    var f=document.getElementById('mock-from'),
+                        t=document.getElementById('mock-to'),
+                        v=f.value;
+                    f.value=t.value; t.value=v;
+                  })()"
+                  style="background:#f0f4ff;border:1.5px solid #c5d3f0;
+                         border-radius:50%;width:36px;height:36px;cursor:pointer;
+                         font-size:18px;color:#006aff;display:flex;
+                         align-items:center;justify-content:center;flex-shrink:0;">
+            &#8644;
+          </button>
+        </div>
+
+        <!-- Going to -->
+        <div style="flex:2;border:1.5px solid #cfd8e3;border-radius:6px;
+                    padding:10px 14px;min-width:0;background:#fff;">
+          <div style="font-size:11px;color:#888;font-weight:600;
+                      letter-spacing:.4px;margin-bottom:3px;">GOING TO</div>
+          <input type="text"
+                 id="mock-to"
+                 name="to"
+                 class="module-input"
+                 placeholder="Going to"
+                 aria-label="Going to"
+                 data-testid="flight-to-input"
+                 autocomplete="off"
+                 style="width:100%;border:none;outline:none;font-size:16px;
+                        font-weight:700;color:#1a1a1a;padding:0;
+                        background:transparent;font-family:inherit;">
+        </div>
+
+        <!-- Depart date -->
+        <div style="flex:1.4;border:1.5px solid #cfd8e3;border-radius:6px;
+                    padding:10px 14px;min-width:0;background:#fff;">
+          <div style="font-size:11px;color:#888;font-weight:600;
+                      letter-spacing:.4px;margin-bottom:3px;">DEPART</div>
+          <input type="date"
+                 id="mock-depart"
+                 name="depart"
+                 class="module-input"
+                 aria-label="Departure date"
+                 data-testid="flight-depart-date"
+                 placeholder="Any date"
+                 style="width:100%;border:none;outline:none;font-size:14px;
+                        font-weight:700;color:#1a1a1a;padding:0;
+                        background:transparent;font-family:inherit;cursor:pointer;">
+        </div>
+
+        <!-- Return date -->
+        <div id="mock-return-wrap"
+             style="flex:1.4;border:1.5px solid #cfd8e3;border-radius:6px;
+                    padding:10px 14px;min-width:0;background:#fff;">
+          <div style="font-size:11px;color:#888;font-weight:600;
+                      letter-spacing:.4px;margin-bottom:3px;">RETURN</div>
+          <input type="date"
+                 id="mock-return"
+                 name="return"
+                 class="module-input"
+                 aria-label="Return date"
+                 data-testid="flight-return-date"
+                 placeholder="Any date"
+                 style="width:100%;border:none;outline:none;font-size:14px;
+                        font-weight:700;color:#1a1a1a;padding:0;
+                        background:transparent;font-family:inherit;cursor:pointer;">
+        </div>
+
+        <!-- Passengers & class -->
+        <div style="flex:1.2;border:1.5px solid #cfd8e3;border-radius:6px;
+                    padding:10px 14px;min-width:0;background:#fff;">
+          <div style="font-size:11px;color:#888;font-weight:600;
+                      letter-spacing:.4px;margin-bottom:3px;">PASSENGERS</div>
+          <select id="mock-passengers"
+                  name="passengers"
+                  aria-label="Passengers and cabin class"
+                  data-testid="flight-passengers"
+                  style="width:100%;border:none;outline:none;font-size:14px;
+                         font-weight:700;color:#1a1a1a;padding:0;
+                         background:transparent;font-family:inherit;cursor:pointer;">
+            <option value="1-economy">1 Adult · Economy</option>
+            <option value="2-economy">2 Adults · Economy</option>
+            <option value="3-economy">3 Adults · Economy</option>
+            <option value="4-economy">4 Adults · Economy</option>
+            <option value="1-business">1 Adult · Business</option>
+            <option value="2-business">2 Adults · Business</option>
+          </select>
+        </div>
+
+        <!-- Search button -->
+        <a id="mock-search-btn"
+           class="nh_sp-btn2"
+           href="./flight_list.html"
+           role="button"
+           aria-label="Search flights"
+           data-testid="flight-search-button"
+           style="flex:0 0 auto;display:flex;align-items:center;
+                  justify-content:center;background:#2c61fe;color:#fff;
+                  border-radius:6px;padding:0 28px;font-size:16px;
+                  font-weight:700;text-decoration:none;white-space:nowrap;
+                  min-width:110px;letter-spacing:.2px;cursor:pointer;">
+          Search
+        </a>
+
+      </div><!-- end .m-searchForm -->
+    </div><!-- end #mock-panel-flights -->
+
+    <!-- ── Trains panel (hidden) ── -->
+    <div id="mock-panel-trains" role="tabpanel" class="mock-panel" style="display:none;">
+      <p style="color:#888;font-size:14px;">Train search is not available in this demo environment.</p>
+    </div>
+
+    <!-- ── Cars panel (hidden) ── -->
+    <div id="mock-panel-cars" role="tabpanel" class="mock-panel" style="display:none;">
+      <p style="color:#888;font-size:14px;">Car rental search is not available in this demo environment.</p>
+    </div>
+
+    <!-- ── Attractions panel (hidden) ── -->
+    <div id="mock-panel-attractions" role="tabpanel" class="mock-panel" style="display:none;">
+      <p style="color:#888;font-size:14px;">Attractions search is not available in this demo environment.</p>
+    </div>
+
+  </div><!-- end panel wrapper -->
+</div><!-- end #mock-search-widget -->
+
+<script>
+/* Tab switching for mock search widget */
+function mockSwitchTab(name) {
+  /* hide all panels */
+  document.querySelectorAll('.mock-panel').forEach(function(p) {
+    p.style.display = 'none';
+  });
+  /* show target panel */
+  var panel = document.getElementById('mock-panel-' + name);
+  if (panel) panel.style.display = 'block';
+
+  /* reset all tab styles */
+  var tabs = document.querySelectorAll('#mock-tab-bar li');
+  tabs.forEach(function(t) {
+    t.setAttribute('aria-selected', 'false');
+    t.style.background = '#e8edf5';
+    t.style.color = '#555';
+    t.style.fontWeight = '600';
+    t.style.borderBottom = 'none';
+  });
+  /* highlight active tab */
+  var activeTab = document.getElementById('mock-tab-' + name);
+  if (activeTab) {
+    activeTab.setAttribute('aria-selected', 'true');
+    activeTab.style.background = '#fff';
+    activeTab.style.color = '#006aff';
+    activeTab.style.fontWeight = '700';
+    activeTab.style.borderBottom = '1px solid #fff';
+  }
+
+  /* hide return date for one-way */
+  if (name === 'flights') {
+    document.getElementById('mock-ow').addEventListener('change', function() {
+      var rw = document.getElementById('mock-return-wrap');
+      if (rw) rw.style.display = this.checked ? 'none' : '';
+    });
+    document.getElementById('mock-rt').addEventListener('change', function() {
+      var rw = document.getElementById('mock-return-wrap');
+      if (rw) rw.style.display = '';
+    });
+  }
+}
+</script>
+"""
+
 
 def rewrite_home_page(soup: BeautifulSoup) -> str:
     """
-    홈 페이지에서 Search 버튼의 클릭 동작을 ./flight_list.html로 이동하는
-    정적 링크(<a href>)로 교체한다.
+    Trip.com 홈 페이지의 React 기반 검색 위젯을 에이전트 실험용
+    정적 위젯(탭바 + Flight Search Form)으로 교체한다.
 
-    Trip.com의 Search 버튼은 React 이벤트로만 작동하므로,
-    버튼 요소 자체를 <a href="./flight_list.html"> 로 교체한다.
+    에이전트 수행 흐름:
+      1. 'Flights' 탭 클릭  →  mockSwitchTab('flights') 실행
+      2. From / To / 날짜 입력  →  각 입력창에 직접 타이핑
+      3. 'Search' 버튼 클릭  →  ./flight_list.html 이동
     """
-    print("\n  🔗 홈 페이지 Search 버튼 정적 링크 치환 중...")
+    print("\n  🔗 홈 페이지 Mock Search Widget 주입 중...")
 
-    list_path = "./flight_list.html"
-    replaced = False
+    widget_soup = BeautifulSoup(MOCK_SEARCH_WIDGET_HTML, "html.parser")
+    widget_root = widget_soup.find("div", id="mock-search-widget")
+    # <script> 태그도 함께 포함
+    script_tag  = widget_soup.find("script")
 
-    # 후보 1: class에 'search' 관련 키워드를 포함하는 button 또는 div
-    for tag_name in ["button", "div", "a", "span"]:
-        candidates = soup.find_all(
-            tag_name,
-            class_=re.compile(r"search|sp-btn|srh-btn", re.I)
-        )
-        for el in candidates:
-            text = el.get_text(strip=True).lower()
-            if "search" in text:
-                new_a = soup.new_tag(
-                    "a", href=list_path,
-                    style=(
-                        "display:inline-flex;align-items:center;justify-content:center;"
-                        "background:#0066cc;color:#fff;padding:12px 32px;"
-                        "border-radius:4px;font-size:16px;font-weight:bold;"
-                        "text-decoration:none;cursor:pointer;"
-                    )
-                )
-                new_a.string = "🔍 Search"
-                el.replace_with(new_a)
-                replaced = True
-                print(f"    ✅ Search 버튼(<{tag_name}> class='{el.get('class', '')}') → <a href='{list_path}'>")
-                break
-        if replaced:
+    # ── 삽입 위치 탐색 ────────────────────────────────────────────────────────
+    # 1순위: Trip.com 검색 컨테이너 (class 키워드 기반)
+    CONTAINER_PATTERNS = [
+        re.compile(r"home-banner-container", re.I),
+        re.compile(r"searchbox|search-box|search_box", re.I),
+        re.compile(r"flt-searchbox|flightSearch", re.I),
+        re.compile(r"m-searchForm|srh-box", re.I),
+    ]
+    container = None
+    for pattern in CONTAINER_PATTERNS:
+        container = soup.find(attrs={"class": pattern})
+        if container:
+            cls = " ".join(container.get("class", []))[:70]
+            print(f"    ✅ 컨테이너 발견: class='{cls}'")
             break
 
-    # 후보 2: 텍스트가 정확히 'Search'인 모든 클릭 가능 요소
-    if not replaced:
-        for el in soup.find_all(["button", "div", "span", "a"]):
-            if el.get_text(strip=True) == "Search":
-                new_a = soup.new_tag("a", href=list_path,
-                                     style="display:inline-block;background:#0066cc;color:#fff;"
-                                            "padding:12px 24px;border-radius:4px;font-weight:bold;"
-                                            "text-decoration:none;")
-                new_a.string = "🔍 Search"
-                el.replace_with(new_a)
-                replaced = True
-                print(f"    ✅ 텍스트 'Search' 요소 → <a href='{list_path}'>")
-                break
+    if container:
+        container.replace_with(widget_root)
+        print("    ✅ 기존 검색 컨테이너를 Mock Widget으로 교체")
+    else:
+        # 2순위: <main> 또는 <body> 최상단에 삽입
+        target = soup.find("main") or soup.find("body")
+        if target:
+            target.insert(0, widget_root)
+            print(f"    ✅ <{target.name}> 최상단에 Mock Widget 삽입")
+        else:
+            print("    ⚠️  삽입 위치를 찾지 못했습니다.")
 
-    if not replaced:
-        # Fallback: body 상단에 Search 링크 강제 삽입
+    # <script> 태그는 <body> 끝에 추가 (context_diet 이후 주입이므로 제거 안 됨)
+    if script_tag:
         body = soup.find("body")
         if body:
-            notice = soup.new_tag(
-                "div",
-                style="position:fixed;bottom:20px;right:20px;z-index:99999;"
-                       "background:#0066cc;border-radius:8px;padding:4px;"
-            )
-            fallback_a = soup.new_tag(
-                "a", href=list_path,
-                style="display:block;color:#fff;padding:12px 24px;"
-                       "font-size:16px;font-weight:bold;text-decoration:none;"
-            )
-            fallback_a.string = "🔍 Search Flights (Jeju → Gimpo)"
-            notice.append(fallback_a)
-            body.append(notice)
-            print(f"    ⚠️  Search 버튼 없음 → Fallback 고정 링크 삽입")
+            body.append(script_tag)
+            print("    ✅ 탭 전환 <script> 삽입")
 
     return str(soup)
+
 
 
 def save_html(html_str: str, filepath: Path) -> None:
