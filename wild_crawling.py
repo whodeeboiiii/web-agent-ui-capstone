@@ -485,7 +485,7 @@ async def collect_raw_html(playwright) -> dict:
 REMOVE_TAGS = [
     "script", "iframe", "noscript", "svg",
     "canvas", "video", "audio", "source", "track",
-    "meta",   # 대부분 에이전트 태스크에 무관
+    "meta",    # 대부분 에이전트 태스크에 무관
 ]
 
 # 삭제할 class/id 키워드를 포함한 섹션 (광고, 푸터, 쿠키 배너 등)
@@ -580,6 +580,20 @@ def context_diet(raw_html: str, label: str = "") -> BeautifulSoup:
     """
     soup = BeautifulSoup(raw_html, "lxml")
 
+    for captcha_text in soup.find_all(string=re.compile(r"Too many attempts|verification|puzzle", re.I)):
+        # 해당 문구를 포함한 가장 가까운 팝업/레이어(div)를 찾아 삭제
+        target = captcha_text.find_parent("div", class_=re.compile(r"modal|mask|container|wrapper", re.I))
+        if target:
+            target.decompose()
+            print(f"    ✨ [{label}] 가공 중 캡차 레이어 제거 완료")
+
+    # 2. 화면을 가리는 오버레이(배경 어둡게 만드는 막) 제거
+    for mask in soup.select('.modal-mask, .mask, [class*="captcha_"]'):
+        mask.decompose()
+
+    # 3. body에 걸린 스크롤 방지 해제 (팝업 때문에 스크롤이 안 될 수 있음)
+    if soup.body and soup.body.has_attr("style"):
+        soup.body["style"] = soup.body["style"].replace("overflow: hidden", "overflow: auto")
     # ── 2-1. 불필요 태그 전체 삭제 ────────────────────────────────────────────
     tag_count = {}
     for tag_name in REMOVE_TAGS:
