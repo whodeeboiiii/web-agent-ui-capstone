@@ -26,6 +26,7 @@ Pilot Study 2: Wild Web UI 수집 및 정적 모의 환경(Static Mock Environme
 import asyncio
 import re
 import json
+import unicodedata
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -466,18 +467,30 @@ def context_diet(raw_html: str, label: str = "") -> BeautifulSoup:
     Returns:
         가공된 BeautifulSoup 객체
     """
-    soup = BeautifulSoup(raw_html, "lxml")
+    soup = BeautifulSoup(raw_html, "lxml", from_encoding="utf-8")
 
-    for captcha_text in soup.find_all(string=re.compile(r"Too many attempts|verification|puzzle", re.I)):
-        # 해당 문구를 포함한 가장 가까운 팝업/레이어(div)를 찾아 삭제
-        target = captcha_text.find_parent("div", class_=re.compile(r"modal|mask|container|wrapper", re.I))
-        if target:
-            target.decompose()
-            print(f"    ✨ [{label}] 가공 중 캡차 레이어 제거 완료")
+    # string=re.compile(...) 대신 텍스트를 포함하는 Tag를 직접 찾거나 검증 후 부모 탐색
+    for captcha_element in soup.find_all(string=re.compile(r"Too many attempts|verification|puzzle", re.I)):
+        # 해당 요소가 parent 속성을 가지고 있는지 확인 (AttributeError 방지)
+        if hasattr(captcha_element, 'parent') and captcha_element.parent is not None:
+            target = captcha_element.find_parent("div", class_=re.compile(r"modal|mask|container|wrapper", re.I))
+            if target:
+                target.decompose()
 
     # 2. 화면을 가리는 오버레이(배경 어둡게 만드는 막) 제거
     for mask in soup.select('.modal-mask, .mask, [class*="captcha_"]'):
         mask.decompose()
+
+    # 4. 특수 공백(\xa0) 및 유니코드 정규화 (순회 방식을 더 안전하게 변경)
+    # replace_with 대신 .string 속성 수정을 권장합니다.
+    for text_node in soup.find_all(string=True):
+        if text_node.parent and text_node.parent.name not in ['script', 'style']:
+            # \xa0 치환 및 NFKC 정규화
+            clean_text = text_node.replace('\xa0', ' ')
+            clean_text = unicodedata.normalize('NFKC', clean_text)
+            
+            # BeautifulSoup 내부의 NavigableString 값을 안전하게 업데이트
+            text_node.replace_with(clean_text)
 
     # 3. body에 걸린 스크롤 방지 해제 (팝업 때문에 스크롤이 안 될 수 있음)
     if soup.body and soup.body.has_attr("style"):
@@ -535,6 +548,12 @@ def context_diet(raw_html: str, label: str = "") -> BeautifulSoup:
         print(f"       태그 제거: {removed_summary}")
         print(f"       섹션 제거: {section_removed}개 | CSS 유지: {css_link_count}개 | 속성 제거: {attr_removed}개")
 
+    if soup.head:
+        for old_meta in soup.find_all("meta", attrs={"charset": True}):
+            old_meta.decompose()
+        new_meta = soup.new_tag("meta", charset="utf-8")
+        soup.head.insert(0, new_meta)
+        
     return soup
 
 
@@ -627,7 +646,7 @@ def rewrite_detail_page(soup: BeautifulSoup, flight_idx: int) -> str:
     if close_btn:
         new_a = soup.new_tag("a", href=list_path,
                              style="display:inline-block;cursor:pointer;font-size:20px;")
-        new_a.string = "✕ 닫기"
+        new_a.string = "✕ close"
         close_btn.replace_with(new_a)
         print(f"    🔗 상세 #{flight_idx}: 닫기(×) 버튼 → <a href='{list_path}'>")
     else:
@@ -643,7 +662,7 @@ def rewrite_detail_page(soup: BeautifulSoup, flight_idx: int) -> str:
         )
         back_link = soup.new_tag("a", href=list_path,
                                  style="font-weight:bold;text-decoration:none;color:#0066cc;")
-        back_link.string = "← 항공편 목록으로 돌아가기"
+        back_link.string = "← Back to the flight list"
         back_bar.append(back_link)
         body.insert(0, back_bar)
 
@@ -1002,7 +1021,8 @@ def rewrite_home_page(soup: BeautifulSoup) -> str:
 def save_html(html_str: str, filepath: Path) -> None:
     """HTML 문자열을 지정 경로에 저장하고 파일 크기를 출력한다."""
     filepath.parent.mkdir(parents=True, exist_ok=True)
-    filepath.write_text(html_str, encoding="utf-8")
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(html_str)
     size_kb = filepath.stat().st_size / 1024
     print(f"  💾 저장: {filepath.name}  ({size_kb:.1f} KB)")
 
