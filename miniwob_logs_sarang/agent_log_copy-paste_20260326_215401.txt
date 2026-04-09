@@ -1,0 +1,737 @@
+📝 Logging to: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs/agent_log_copy-paste_20260326_215401.txt
+
+📋 Shortened log: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs_shortened/short_log_copy-paste_20260326_215401.txt
+
+🎯 Task Goal: ({'type': 'text', 'text': 'Copy the text in the textarea below, paste it into the textbox and press Submit.'},)
+
+⏱️  Max steps: 50
+
+
+============================================================
+  STEP 1
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/copy-paste.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Copy the text in the textarea below, paste it into the textbox and press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Copy Paste Task', focused
+	[14] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod ', visible
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[15] textbox '', clickable, visible
+	[16] button 'Submit', clickable, visible
+
+## Focused element:
+bid='9'
+
+
+# History of interaction with the task:
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+I need to copy the text from the visible textbox with bid '14' and paste it into the other visible textbox with bid '15'. After that, I will submit the form by clicking the button with bid '16'. First, I will copy the text from the first textbox.
+</think>
+
+<action>
+focus('14')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9484 | out: 73 | cost: $0.001466
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 2
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/copy-paste.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Copy the text in the textarea below, paste it into the textbox and press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Copy Paste Task', focused
+	[14] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod ', visible, focused
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[15] textbox '', clickable, visible
+	[16] button 'Submit', clickable, visible
+
+## Focused element:
+bid='14'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+focus('14')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+I need to copy the text from the focused textbox (bid='14') and paste it into the other visible textbox (bid='15'). Since I am on a Mac, I will use the Meta key for the copy and paste actions. First, I will select the text in the focused textbox, then copy it, and finally paste it into the other textbox before submitting the form.
+</think>
+
+<action>
+press('14', 'Meta+A')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9501 | out: 97 | cost: $0.001483
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 3
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/copy-paste.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Copy the text in the textarea below, paste it into the textbox and press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Copy Paste Task', focused
+	[14] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod ', visible, focused
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[15] textbox '', clickable, visible
+	[16] button 'Submit', clickable, visible
+
+## Focused element:
+bid='14'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+focus('14')
+</action>
+
+## step 1
+
+<action>
+press('14', 'Meta+A')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+I have focused on the textbox with bid '14' and selected the text within it. Now, I need to copy the selected text to the clipboard. I will use the keyboard shortcut for copying, which is Meta+C on a Mac.
+</think>
+
+<action>
+press('14', 'Meta+C')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9520 | out: 68 | cost: $0.001469
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 4
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/copy-paste.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Copy the text in the textarea below, paste it into the textbox and press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Copy Paste Task', focused
+	[14] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod ', visible, focused
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[15] textbox '', clickable, visible
+	[16] button 'Submit', clickable, visible
+
+## Focused element:
+bid='14'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+focus('14')
+</action>
+
+## step 1
+
+<action>
+press('14', 'Meta+A')
+</action>
+
+## step 2
+
+<action>
+press('14', 'Meta+C')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+I have successfully copied the text from the focused textbox. Now, I need to paste this text into the second textbox (bid '15') and then submit the form. I will first fill the second textbox with the copied text.
+</think>
+
+<action>
+fill('15', 'Risus sit. At aliquet. Enim viverra auctor tristique euismod')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9539 | out: 79 | cost: $0.001478
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 5
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/copy-paste.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Copy the text in the textarea below, paste it into the textbox and press Submit.
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Copy Paste Task', focused
+	[14] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod ', visible
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[15] textbox '' value='Risus sit. At aliquet. Enim viverra auctor tristique euismod', clickable, visible, focused
+		StaticText 'Risus sit. At aliquet. Enim viverra auctor tristique euismod'
+	[16] button 'Submit', clickable, visible
+
+## Focused element:
+bid='15'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+focus('14')
+</action>
+
+## step 1
+
+<action>
+press('14', 'Meta+A')
+</action>
+
+## step 2
+
+<action>
+press('14', 'Meta+C')
+</action>
+
+## step 3
+
+<action>
+fill('15', 'Risus sit. At aliquet. Enim viverra auctor tristique euismod')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+I have successfully filled the textbox with the copied text "Risus sit. At aliquet. Enim viverra auctor tristique euismod". The next step is to submit the form by clicking the "Submit" button, which is visible and clickable.
+</think>
+
+<action>
+click('16')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9610 | out: 65 | cost: $0.001480
+────────────────────────────────────────────────────────────
+
+✅ Task finished! reward=0.0
+📝 Full log saved to: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs/agent_log_copy-paste_20260326_215401.txt

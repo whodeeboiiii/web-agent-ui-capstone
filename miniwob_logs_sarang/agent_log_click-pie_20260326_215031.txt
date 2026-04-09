@@ -1,0 +1,867 @@
+📝 Logging to: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs/agent_log_click-pie_20260326_215031.txt
+
+📋 Shortened log: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs_shortened/short_log_click-pie_20260326_215031.txt
+
+🎯 Task Goal: ({'type': 'text', 'text': 'Expand the pie menu below and click on the item labeled "c".'},)
+
+⏱️  Max steps: 50
+
+
+============================================================
+  STEP 1
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/click-pie.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Expand the pie menu below and click on the item labeled "c".
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Click Pie Menu Task', focused
+	[18] SvgRoot ''
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'b'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'Q'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'M'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '6'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'I'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'c'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'S'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '9'
+		graphics-symbol ''
+		StaticText '+'
+
+## Focused element:
+bid='13'
+
+
+# History of interaction with the task:
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+The current state of the page shows a pie menu with various options labeled with letters. The goal is to expand the pie menu and click on the item labeled "c". Since the pie menu is not yet expanded, I will first click on the pie menu to reveal its contents.
+</think>
+
+<action>
+click('13')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9567 | out: 72 | cost: $0.001478
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 2
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/click-pie.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Expand the pie menu below and click on the item labeled "c".
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Click Pie Menu Task', focused
+	[18] SvgRoot ''
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'b'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'Q'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'M'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '6'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'I'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'c'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'S'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '9'
+		graphics-symbol ''
+		StaticText '+'
+
+## Focused element:
+bid='13'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+click('13')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+The previous action clicked on the pie menu, which likely expanded it. Now, I need to interact with the item labeled "c" within the expanded menu. Since "c" is a static text element, I will click on it to select it.
+</think>
+
+<action>
+click('13')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9582 | out: 67 | cost: $0.001477
+────────────────────────────────────────────────────────────
+
+============================================================
+  STEP 3
+============================================================
+📍 URL: file:///Users/sarangchoi/Desktop/y/2026/2026-1/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8C%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8/BrowserGym/miniwob-plusplus/miniwob/html/miniwob/click-pie.html
+The content of the message has images, which are not displayed in the string representation.
+
+────────────────────────────────────────────────────────────
+📨 Messages sent to LLM:
+
+  [SYSTEM]
+You are an agent trying to solve a web task based on the content of the page and
+user instructions. You can interact with the page and explore, and send messages to the user. Each time you
+submit an action it will be sent to the browser and you will receive a new page.
+
+  [USER]
+# Instructions
+Review the current state of the page and all other information to find the best
+possible next action to accomplish your goal. Your answer will be interpreted
+and executed by a program, make sure to follow the formatting instructions.
+
+## Goal:
+
+Expand the pie menu below and click on the item labeled "c".
+
+# Observation of current step:
+
+## AXTree:
+Note: [bid] is the unique alpha-numeric identifier at the beginning of lines for each element in the AXTree. Always use bid to refer to elements in your actions.
+
+Note: You can only interact with visible elements. If the "visible" tag is not
+present, the element is not visible on the page.
+
+RootWebArea 'Click Pie Menu Task', focused
+	[18] SvgRoot ''
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'b'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'Q'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'M'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '6'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'I'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'c'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText 'S'
+		graphics-symbol ''
+		graphics-symbol ''
+		StaticText '9'
+		graphics-symbol ''
+		StaticText '-'
+
+## Focused element:
+bid='13'
+
+
+# History of interaction with the task:
+
+## step 0
+
+<action>
+click('13')
+</action>
+
+## step 1
+
+<action>
+click('13')
+</action>
+
+# Action space:
+Note: This action set allows you to interact with your environment. Most of them
+are python function executing playwright code. The primary way of referring to
+elements in the page is through bid which are specified in your observations.
+
+
+12 different types of actions are available.
+
+noop(wait_ms: float = 1000)
+scroll(delta_x: float, delta_y: float)
+fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
+select_option(bid: str, options: str | list[str])
+click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
+hover(bid: str)
+press(bid: str, key_comb: str)
+focus(bid: str)
+clear(bid: str)
+drag_and_drop(from_bid: str, to_bid: str)
+upload_file(bid: str, file: str | list[str])
+Only a single action can be provided at once. Example:
+fill('b534', 'Montre', True)
+
+Note: you are on mac so you should use Meta instead of Control for Control+C etc.
+
+Note:
+* Some tasks may be game like and may require to interact with the mouse position
+in x, y coordinates.
+* Some text field might have auto completion. To see it, you have to type a few
+characters and wait until next step.
+* If you have to cut and paste, don't forget to select the text first.
+* Coordinate inside an SVG are relative to it's top left corner.
+* Make sure to use bid to identify elements when using commands.
+* Interacting with combobox, dropdowns and auto-complete fields can be tricky,
+sometimes you need to use select_option, while other times you need to use fill
+or click and wait for the reaction of the page.
+
+
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+
+<think>
+Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
+that your previous action had on the current content of the page.
+</think>
+
+<action>
+One single action to be executed. You can only use one action at a time.
+</action>
+
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+
+<think>
+From previous action I tried to set the value of year to "2022",
+using select_option, but it doesn't appear to be in the form. It may be a
+dynamic dropdown, I will try using click with the bid "a324" and look at the
+response from the page.
+</think>
+
+<action>
+click('a324')
+</action>
+
+
+## Screenshot:
+Here is a screenshot of the page, it is annotated with bounding boxes and corresponding bids:
+
+  [ASSISTANT]
+<think>
+The pie menu is currently displayed, but I need to expand it to access the item labeled "c". Since the item is visible, I will click on the pie menu to expand it and reveal the options.
+</think>
+
+<action>
+click('13')
+</action>
+
+────────────────────────────────────────────────────────────
+🧠⚠️  LLM retries this step: 1🧠
+
+📊 Stats — tokens in: 9597 | out: 58 | cost: $0.001474
+────────────────────────────────────────────────────────────
+All pages are closed, opening a new page.
+
+✅ Task finished! reward=0
+📝 Full log saved to: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs/agent_log_click-pie_20260326_215031.txt
+Task exception was never retrieved
+future: <Task finished name='Task-551' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-546' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-547' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-548' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-549' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-550' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-559' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-552' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-553' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-554' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-555' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-556' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-557' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-558' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-567' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-560' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-561' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-562' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-563' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-564' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-565' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-566' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-568' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-569' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-570' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-571' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-572' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-573' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-574' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-575' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-576' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-577' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-578' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-579' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-580' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-581' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-582' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-583' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-584' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-585' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed
+Task exception was never retrieved
+future: <Task finished name='Task-586' coro=<Channel.send() done, defined at /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py:58> exception=TargetClosedError('Channel.send: Target page, context or browser has been closed')>
+Traceback (most recent call last):
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/.venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: Channel.send: Target page, context or browser has been closed

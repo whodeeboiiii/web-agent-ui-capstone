@@ -1,0 +1,4 @@
+📝 Logging to: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs/agent_log_enter-time_20260326_213415.txt
+
+📋 Shortened log: /Users/sarangchoi/Desktop/y/2026/2026-1/인공지능종합설계/BrowserGym/logs_shortened/short_log_enter-time_20260326_213415.txt
+
