@@ -51,7 +51,7 @@ log.info(f"📋 Shortened log: {short_log_path}\n")
 
 # 1. 모델 및 에이전트 설정
 agent_args = deepcopy(AGENT_4o_MINI)     # gpt-4o-mini 사용 (CHANGE: 모델 변경하려면 이 줄 변경)
-agent_args.flags.obs.use_html = True
+agent_args.flags.obs.use_html = False
 agent_args.flags.obs.use_ax_tree = True      # HTML 대신 접근성 트리만 사용
 agent_args.flags.max_ax_tree_depth = 10
 agent_args.flags.add_clickable_area_to_ax_tree = True
