@@ -1,23 +1,16 @@
 """
-AWI-integrated MiniWob agent.
+AWI-integrated MiniWob agent (standard AgentLab prompt + AWI observation).
 
 Pipeline per agent step:
-  1. Inject AWI_protocol.js into the live Playwright page via page.evaluate().
-     — Standard pass: tags <a>, <button>, <input> with [AWI: clickable=True]
-     — BrowserGym SOM pass: tags all [browsergym_set_of_marks=1] elements
-       (covers MiniWob's <span class="alink"> words that have no ARIA roles).
-       Embeds the BrowserGym `bid` number into the AWI tag so the LLM can
-       report it back for reliable env.step() execution.
-  2. page.accessibility.snapshot(interesting_only=True) → format as YAML text.
-  3. OpenAI API (JSON mode) → structured action with optional bid.
-  4. Execute: prefer env.step("click(bid)") via BrowserGym; fall back to
-     Playwright aria-label selector + env.step("noop()").
-  5. Reward / terminated / truncated come from env.step() in step 4.
+  1. Inject awi_inject.js into the live Playwright page via page.evaluate().
+  2. page.accessibility.snapshot(interesting_only=True) → AWI snapshot text.
+  3. LLM with the same prompt shape as AgentLab GenericAgent (XML tags, bid actions).
+     Only the observation block differs: ## AWI snapshot (post-inject a11y tree) vs ## AXTree.
+  4. env.step(action_string) e.g. click('22') — same as main.py / BrowserGym.
 """
 
 import os
 import re
-import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -33,10 +26,29 @@ os.environ["MINIWOB_URL"] = "file://" + pathname2url(str(_miniwob_html_dir)) + "
 import gymnasium as gym
 import browsergym.core
 import browsergym.miniwob
+from browsergym.core.observation import _pre_extract
+from browsergym.core.action.functions import (
+    clear,
+    click,
+    dblclick,
+    drag_and_drop,
+    fill,
+    focus,
+    hover,
+    noop,
+    press,
+    select_option,
+    upload_file,
+)
+from browsergym.core.action.highlevel import HighLevelActionSet
+from browsergym.experiments.benchmark.base import HighLevelActionSetArgs
 from openai import OpenAI
 
+from agentlab.agents import dynamic_prompting as dp
+from agentlab.llm.llm_utils import ParseError, parse_html_tags_raise
+
 # ── Config ────────────────────────────────────────────────────────────────────
-TASK_ID   = "browsergym/miniwob.click-tab-2-medium"   # ← CHANGE: 태스크 변경
+TASK_ID   = "browsergym/miniwob.visual-addition"   # ← CHANGE: 태스크 변경
 TASK_NAME = TASK_ID.split("miniwob.")[-1]
 MAX_STEPS = 15                                          # ← CHANGE: 에이전트 최대 스텝 수
 MODEL     = "gpt-4o-mini"                              # ← CHANGE: LLM 모델 변경
@@ -62,148 +74,58 @@ slog.setLevel(logging.INFO)
 slog.propagate = False
 slog.addHandler(logging.FileHandler(short_log_path, encoding="utf-8"))
 
-# ── AWI injection JS ──────────────────────────────────────────────────────────
-# Executed via page.evaluate() before each observation extraction.
-# Uses var/for-loop syntax (ES5-compatible, avoids template-literal escaping).
-_AWI_JS = """
-(function () {
-    var inViewport = function(el) {
-        var r = el.getBoundingClientRect();
-        return r.top >= 0 && r.left >= 0
-            && r.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-            && r.right  <= (window.innerWidth  || document.documentElement.clientWidth);
-    };
+# ── AWI injection JS (shared with AWI_protocol.js) ───────────────────────────
+_AWI_JS = (Path(__file__).parent / "awi_inject.js").read_text(encoding="utf-8")
 
-    // ── Pass 1: Pruning ────────────────────────────────────────────────────
-    // Mark off-viewport elements aria-hidden so they are excluded from
-    // page.accessibility.snapshot(). Reduces observation noise.
-    var allEls = document.querySelectorAll(
-        'button,a,input,textarea,select,div,span,[role="button"]'
-    );
-    for (var i = 0; i < allEls.length; i++) {
-        if (!inViewport(allEls[i])) allEls[i].setAttribute('aria-hidden', 'true');
-    }
+# ── Standard MiniWob prompt (AgentLab GenericAgent / FLAGS_GPT_4o) ───────────
+_SYSTEM_PROMPT = dp.SystemPrompt().prompt
 
-    // ── Pass 2: Standard augmentation ─────────────────────────────────────
-    // Inject AWI metadata into aria-label of visible standard interactive elements.
-    var stdEls = document.querySelectorAll(
-        'a:not([aria-hidden]),button:not([aria-hidden]),'
-        + 'input:not([aria-hidden]),[onclick]:not([aria-hidden])'
-    );
-    for (var j = 0; j < stdEls.length; j++) {
-        var el = stdEls[j];
-        var tag = el.tagName.toLowerCase();
-        var meta = '[AWI: tag=' + tag + ', clickable=True';
-        if (tag === 'input' && el.type) meta += ', input_type=' + el.type;
-        meta += ']';
-        if (el.hasAttribute('onclick') && tag !== 'button' && tag !== 'a')
-            el.setAttribute('role', 'button');
-        var base = (el.getAttribute('aria-label') || el.innerText || el.value || '')
-            .replace(/\\n/g, ' ').trim();
-        el.setAttribute('aria-label', (base + ' ' + meta).trim());
-    }
-
-    // ── Pass 3: BrowserGym SOM augmentation ───────────────────────────────
-    // BrowserGym marks interactive elements (including MiniWob's <span class="alink">
-    // word-links) with browsergym_set_of_marks="1" and a `bid` attribute.
-    // These elements have no ARIA role by default, so they are invisible to
-    // page.accessibility.snapshot(). We promote them to role="button" and
-    // embed the bid in the AWI tag so the LLM can extract it for env.step().
-    var somEls = document.querySelectorAll('[browsergym_set_of_marks="1"]:not([aria-hidden])');
-    for (var k = 0; k < somEls.length; k++) {
-        var el2 = somEls[k];
-        // Skip if already augmented by Pass 2
-        if (el2.getAttribute('aria-label') && el2.getAttribute('aria-label').indexOf('[AWI:') !== -1)
-            continue;
-        var tag2 = el2.tagName.toLowerCase();
-        var bid  = el2.getAttribute('bid') || '';
-        el2.setAttribute('role', 'button');
-        var base2 = (el2.getAttribute('aria-label') || el2.innerText || '').replace(/\\n/g,' ').trim();
-        var meta2 = '[AWI: tag=' + tag2 + ', clickable=True' + (bid ? ', bid=' + bid : '') + ']';
-        el2.setAttribute('aria-label', (base2 + ' ' + meta2).trim());
-    }
-
-    // ── Pass 4: Virtual scroll button ─────────────────────────────────────
-    // Exposes page scrolling as an explicit named action (action_id=999 sentinel).
-    if (!document.querySelector('[data-awi-next]')) {
-        var btn = document.createElement('button');
-        btn.setAttribute('aria-label', 'Next Page [AWI: action_id=999, scroll_down]');
-        btn.setAttribute('data-awi-next', '1');
-        btn.style.cssText = 'position:fixed;bottom:10px;right:10px;z-index:9999;'
-                          + 'padding:4px 8px;font-size:11px;opacity:.7;';
-        btn.textContent = 'Scroll';
-        document.body.appendChild(btn);
-    }
-})();
-"""
-
-# ── System prompt ─────────────────────────────────────────────────────────────
-_SYSTEM_PROMPT = """
-# Instructions
-Review the current state of the page and all other information to find the best possible next action to accomplish your goal.
-
-## Goal:
-{goal}
-
-# Observation of current step:
-{snapshot}
-
-## AWI Snapshot Guide (Modified from Baseline):
-Note: You are viewing an Augmented Web Interaction (AWI) snapshot. 
-Elements tagged with [AWI: ..., clickable=True] are interactive. 
-If an [AWI: ...] tag contains a `bid=N` (e.g., [AWI: tag=span, clickable=True, bid=27]), this `N` is the unique BrowserGym element ID. 
-Always use this `bid` number inside your action functions (e.g., click('27')). 
-If you see [AWI: action_id=999, scroll_down], use the scroll(0, 300) action.
-
-# Action space:
-noop(wait_ms: float = 1000)
-scroll(delta_x: float, delta_y: float)
-fill(bid: str, value: str, enable_autocomplete_menu: bool = False)
-select_option(bid: str, options: str | list[str])
-click(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
-dblclick(bid: str, button: Literal['left', 'middle', 'right'] = 'left', modifiers: list[typing.Literal['Alt', 'Control', 'ControlOrMeta', 'Meta', 'Shift']] = [])
-hover(bid: str)
-press(bid: str, key_comb: str)
-focus(bid: str)
-clear(bid: str)
-drag_and_drop(from_bid: str, to_bid: str)
-upload_file(bid: str, file: str | list[str])
-Only a single action can be provided at once. Example:
-fill('b534', 'Montre', True)
+_ACTION_FLAGS = dp.ActionFlags(
+    action_set=HighLevelActionSetArgs(subsets=["bid"], multiaction=False),
+    long_description=False,
+    individual_examples=False,
+)
+# AWI: page motion is click(Next Page bid), not scroll(). Textareas use press(bid, Home|End).
+_AWI_ACTION_SET = HighLevelActionSet(
+    subsets=["custom"],
+    custom_actions=[
+        fill,
+        select_option,
+        click,
+        dblclick,
+        hover,
+        press,
+        focus,
+        clear,
+        drag_and_drop,
+        upload_file,
+        noop,
+    ],
+    multiaction=False,
+)
+_ACTION_PROMPT = dp.ActionPrompt(_AWI_ACTION_SET, _ACTION_FLAGS)
+_THINK = dp.Think()
+_HINTS = dp.Hints()
+_BE_CAUTIOUS = dp.BeCautious(visible=False)  # single-action bid set
 
 
-# Abstract Example
-Here is an abstract version of the answer with description of the content of
-each tag. Make sure you follow this structure, but replace the content with your
-answer:
-
-<think>
-Think step by step. If you need to make calculations such as coordinates, write them here. Describe the effect
-that your previous action had on the current content of the page.
-</think>
-
-<action>
-One single action to be executed. You can only use one action at a time.
-</action>
-
-
-# Concrete Example
-
-Here is a concrete example of how to format your answer.
-Make sure to follow the template with proper tags:
-
-<think>
-From previous action I tried to set the value of year to "2022",
-using select_option, but it doesn't appear to be in the form. It may be a
-dynamic dropdown, I will try using click with the bid "a324" and look at the
-response from the page.
-</think>
-
-<action>
-click('a324')
-</action>
-
-"""
+def _format_goal(goal_obj) -> str:
+    """Normalize BrowserGym goal / goal_object to plain text."""
+    if goal_obj is None:
+        return "(no goal)"
+    if isinstance(goal_obj, str):
+        return goal_obj
+    if isinstance(goal_obj, (list, tuple)):
+        parts = []
+        for item in goal_obj:
+            if isinstance(item, dict) and item.get("type") == "text":
+                parts.append(item.get("text", ""))
+            else:
+                parts.append(str(item))
+        return " ".join(p for p in parts if p).strip() or str(goal_obj)
+    if isinstance(goal_obj, dict) and goal_obj.get("type") == "text":
+        return goal_obj.get("text", str(goal_obj))
+    return str(goal_obj)
 
 
 # ── Helper functions ──────────────────────────────────────────────────────────
@@ -245,8 +167,62 @@ def _format_a11y_tree(node: dict, depth: int = 0) -> str:
     return "\n".join(parts)
 
 
+def _goal_object(goal_text: str) -> list:
+    return [{"type": "text", "text": goal_text}]
+
+
+def _format_action_history(actions: list[str]) -> str:
+    if not actions:
+        return ""
+    blocks = []
+    for i, action in enumerate(actions):
+        blocks.append(f"## step {i}\n\n<action>\n{action}\n</action>\n")
+    return "# History of interaction with the task:\n\n" + "\n".join(blocks)
+
+
+def _build_user_prompt(goal: str, snapshot: str, actions: list[str]) -> str:
+    """AgentLab-shaped user prompt with AWI snapshot instead of AXTree."""
+    instructions = dp.GoalInstructions(_goal_object(goal)).prompt
+    if isinstance(instructions, list):
+        instructions = "".join(
+            p.get("text", "") if isinstance(p, dict) else str(p) for p in instructions
+        )
+    obs_block = (
+        "# Observation of current step:\n\n"
+        f"## AWI snapshot:\n{snapshot}\n"
+    )
+    history = _format_action_history(actions)
+    examples = f"""
+# Abstract Example
+
+Here is an abstract version of the answer with description of the content of
+each tag. Make sure you follow this structure, but replace the content with your
+answer:
+{_THINK.abstract_ex}
+{_ACTION_PROMPT.abstract_ex}
+
+# Concrete Example
+
+Here is a concrete example of how to format your answer.
+Make sure to follow the template with proper tags:
+{_THINK.concrete_ex}
+{_ACTION_PROMPT.concrete_ex}
+"""
+    return (
+        instructions.rstrip()
+        + "\n"
+        + obs_block
+        + history
+        + _ACTION_PROMPT.prompt
+        + _HINTS.prompt
+        + _BE_CAUTIOUS.prompt
+        + examples
+    )
+
+
 def _inject_and_snapshot(page) -> str:
     """Inject AWI protocol into the DOM and return formatted accessibility snapshot."""
+    _pre_extract(page, tags_to_mark="standard_html", lenient=True)
     page.evaluate(_AWI_JS)
     tree = page.accessibility.snapshot(interesting_only=True)
     if tree is None:
@@ -254,75 +230,83 @@ def _inject_and_snapshot(page) -> str:
     return _format_a11y_tree(tree)
 
 
-def _call_llm(client: OpenAI, goal: str, history: list, snapshot: str) -> dict:
-    """Call OpenAI and return the parsed JSON action dict."""
-    history_text = (
-        "\n".join(f"  {i+1}. {h}" for i, h in enumerate(history))
-        if history else "  (none)"
+def _parse_llm_answer(text: str) -> dict:
+    """Parse AgentLab XML response (<think> + <action>)."""
+    action_dict = parse_html_tags_raise(text, keys=["action"], merge_multiple=True)
+    think_m = re.search(
+        r"<think>(.*?)</think>", text, re.DOTALL | re.IGNORECASE
     )
-    user_msg = (
-        f"Goal: {goal}\n\n"
-        f"Action History:\n{history_text}\n\n"
-        f"Current Page Snapshot:\n{snapshot}\n\n"
-        "Respond with JSON only."
-    )
+    action = (action_dict.get("action") or "").strip()
+    if action == "None":
+        action = None
+    return {
+        "think": think_m.group(1).strip() if think_m else "",
+        "action": action,
+    }
+
+
+def _call_llm(client: OpenAI, goal: str, actions: list[str], snapshot: str) -> dict:
+    """Call OpenAI with standard AgentLab prompt; return parsed think + action string."""
+    user_msg = _build_user_prompt(goal, snapshot, actions)
+    messages = [
+        {"role": "system", "content": _SYSTEM_PROMPT},
+        {"role": "user", "content": user_msg},
+    ]
+    log.info("\n📨 Messages sent to LLM:\n")
+    for msg in messages:
+        log.info(f"  [{msg['role'].upper()}]\n{msg['content']}\n")
+
     resp = client.chat.completions.create(
         model=MODEL,
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": _SYSTEM_PROMPT},
-            {"role": "user",   "content": user_msg},
-        ],
+        messages=messages,
         temperature=0.0,
     )
-    u    = resp.usage
+    u = resp.usage
     cost = u.prompt_tokens * 0.15e-6 + u.completion_tokens * 0.6e-6
     log.info(
         f"📊 Tokens in: {u.prompt_tokens} | out: {u.completion_tokens} | "
         f"cost: ${cost:.6f} | snapshot chars: {len(snapshot)}"
     )
-    result = json.loads(resp.choices[0].message.content)
-    if "action" not in result:
-        result["action"] = "done"
-    return result
+    raw = resp.choices[0].message.content or ""
+    try:
+        return _parse_llm_answer(raw)
+    except ParseError as e:
+        log.warning(f"Parse error: {e}")
+        return {"think": raw, "action": None}
 
 
-def _step(env, page, act: dict) -> tuple:
-    """Execute one action and return (obs, reward, terminated, truncated, info, description)."""
-    atype = act.get("action", "done")
-    bid   = re.sub(r"\D", "", str(act.get("bid") or ""))
-    value = (act.get("value") or "").strip()
-    label = (act.get("label") or "").strip()
-    clean = re.sub(r"\[AWI:[^\]]*\]", "", label).strip()
+def _validate_action(action: str) -> str:
+    """BrowserGym bid actions must use numeric ids from the observation."""
+    if not action:
+        return "noop()"
+    if re.match(r"\s*scroll\s*\(", action):
+        log.warning(
+            f"Rejected {action!r} — AWI uses press(bid, Home|End) for clipped textareas "
+            "and click(Next Page bid) for long pages, not scroll()."
+        )
+        return "noop()"
+    for pattern in (
+        r"click\(\s*['\"]([^'\"]+)['\"]",
+        r"fill\(\s*['\"]([^'\"]+)['\"]",
+        r"select_option\(\s*['\"]([^'\"]+)['\"]",
+        r"press\(\s*['\"]([^'\"]+)['\"]",
+    ):
+        m = re.search(pattern, action)
+        if m and not m.group(1).isdigit():
+            log.warning(
+                f"Invalid action {action!r} — bid must be numeric (from [AWI: ..., bid=N]). "
+                "Using noop()."
+            )
+            return "noop()"
+    return action
 
-    if atype == "done":
-        obs, r, term, trunc, info = env.step("noop()")
-        return obs, r, term, trunc, info, "DONE"
 
-    if atype in ("scroll_down", "scroll_up") or "action_id=999" in label:
-        delta = -300 if atype == "scroll_up" else 300
-        page.evaluate(f"window.scrollBy(0, {delta})")
-        obs, r, term, trunc, info = env.step("noop()")
-        return obs, r, term, trunc, info, "SCROLL_" + ("DOWN" if delta > 0 else "UP")
-
-    desc = f"{atype.upper()} bid={bid or '?'} '{clean}'"
-
-    bg_map = {
-        "click":  f"click('{bid}')",
-        "fill":   f"fill('{bid}', {json.dumps(value)})",
-        "select": f"select_option('{bid}', {json.dumps(value)})",
-        "press":  f"press('{bid}', '{value or label}')",
-    }
-    bg_action = bg_map.get(atype)
-
-    if not bid or not bg_action:
-        log.warning(f"No bid for action '{atype}' (label='{clean}') — skipping")
-        obs, r, term, trunc, info = env.step("noop()")
-        return obs, r, term, trunc, info, f"SKIP(no_bid,{atype})"
-
-    obs, r, term, trunc, info = env.step(bg_action)
-    log.info(f"✅ {bg_action}")
-    return obs, r, term, trunc, info, desc
+def _step(env, action: str | None) -> tuple:
+    """Execute a BrowserGym action string (same as main.py / GenericAgent)."""
+    action = _validate_action(action or "")
+    obs, r, term, trunc, info = env.step(action)
+    log.info(f"✅ {action}")
+    return obs, r, term, trunc, info, action
 
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
@@ -339,7 +323,7 @@ page = env.unwrapped.page
 if page is None:
     raise RuntimeError("Playwright page not found — check env.unwrapped.page")
 
-goal = str(obs.get("goal") or obs.get("goal_object") or "(no goal)")
+goal = _format_goal(obs.get("goal") or obs.get("goal_object"))
 log.info(f"📝 Full log:   {log_path}")
 log.info(f"📋 Short log:  {short_log_path}")
 log.info(f"🎯 Goal: {goal}")
@@ -363,18 +347,18 @@ for step in range(1, MAX_STEPS + 1):
     # ── 3: LLM decision ───────────────────────────────────────────────────────
     act = _call_llm(client, goal, action_history, snapshot)
     log.info(f"\n🧠 Think: {act.get('think', '')}")
-    log.info(f"🤖 Action JSON: {act}")
+    log.info(f"🤖 Action: {act.get('action')}")
     slog.info(f"🧠 Think: {act.get('think', '')}")
-    slog.info(f"🤖 Action: {act}")
+    slog.info(f"🤖 Action: {act.get('action')}")
 
     # ── 4 & 5: Execute + get reward/done ─────────────────────────────────────
-    obs, reward, terminated, truncated, info, desc = _step(env, page, act)
-    action_history.append(desc)
+    obs, reward, terminated, truncated, info, action_str = _step(env, act.get("action"))
+    action_history.append(action_str)
     final_reward = reward
     log.info(f"💰 Reward: {reward:.3f} | terminated: {terminated} | truncated: {truncated}")
-    slog.info(f"✅ Executed: {desc}  |  reward={reward:.3f}")
+    slog.info(f"✅ Executed: {action_str}  |  reward={reward:.3f}")
 
-    if terminated or truncated or act.get("action") == "done":
+    if terminated or truncated or not act.get("action"):
         result = "✅ SUCCESS" if reward > 0 else "❌ FAIL"
         log.info(f"\n{result}  reward={reward:.3f}  steps={step}")
         slog.info(f"\n{result}  reward={reward:.3f}  steps={step}")
