@@ -41,6 +41,7 @@ from browsergym.core.action.functions import (
     upload_file,
 )
 from browsergym.core.action.highlevel import HighLevelActionSet
+# pyrefly: ignore [missing-import]
 from browsergym.experiments.benchmark.base import HighLevelActionSetArgs
 from openai import OpenAI
 
@@ -48,7 +49,7 @@ from agentlab.agents import dynamic_prompting as dp
 from agentlab.llm.llm_utils import ParseError, parse_html_tags_raise
 
 # ── Config ────────────────────────────────────────────────────────────────────
-TASK_ID   = "browsergym/miniwob.visual-addition"   # ← CHANGE: 태스크 변경
+TASK_ID   = "browsergym/miniwob.find-greatest"   # ← CHANGE: 태스크 변경
 TASK_NAME = TASK_ID.split("miniwob.")[-1]
 MAX_STEPS = 15                                          # ← CHANGE: 에이전트 최대 스텝 수
 MODEL     = "gpt-4o-mini"                              # ← CHANGE: LLM 모델 변경
@@ -56,7 +57,7 @@ MODEL     = "gpt-4o-mini"                              # ← CHANGE: LLM 모델 
 # ── Logging ───────────────────────────────────────────────────────────────────
 _ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-log_dir = Path(__file__).parent / "logs"
+log_dir = Path(__file__).parent / "awi_logs"
 log_dir.mkdir(exist_ok=True)
 log_path = log_dir / f"agent_log_{TASK_NAME}_{_ts}.txt"
 logging.basicConfig(
@@ -66,7 +67,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("awi")
 
-short_log_dir = Path(__file__).parent / "logs_shortened"
+short_log_dir = Path(__file__).parent / "awi_logs_shortened"
 short_log_dir.mkdir(exist_ok=True)
 short_log_path = short_log_dir / f"short_log_{TASK_NAME}_{_ts}.txt"
 slog = logging.getLogger("awi.short")
@@ -276,7 +277,7 @@ def _call_llm(client: OpenAI, goal: str, actions: list[str], snapshot: str) -> d
 
 
 def _validate_action(action: str) -> str:
-    """BrowserGym bid actions must use numeric ids from the observation."""
+    """BrowserGym bid actions must use numeric ids from the observation. Prevents scroll() & not-a-bid action."""
     if not action:
         return "noop()"
     if re.match(r"\s*scroll\s*\(", action):

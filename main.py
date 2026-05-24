@@ -18,7 +18,7 @@ from agentlab.agents.generic_agent.agent_configs import AGENT_4o_MINI
 from copy import deepcopy
 
 # ── 태스크 설정 (로그 파일명에 사용) ──────────────────────────────
-TASK_ID   = "browsergym/miniwob.form-sequence"   # ← CHANGE: 태스크를 바꾸려면 이 줄만 변경
+TASK_ID   = "browsergym/miniwob.find-greatest"   # ← CHANGE: 태스크를 바꾸려면 이 줄만 변경
 TASK_NAME = TASK_ID.split("miniwob.")[-1]      # e.g. "copy-paste"
 _ts = datetime.now().strftime('%Y%m%d_%H%M%S')
 
@@ -51,7 +51,7 @@ log.info(f"📋 Shortened log: {short_log_path}\n")
 
 # 1. 모델 및 에이전트 설정
 agent_args = deepcopy(AGENT_4o_MINI)     # gpt-4o-mini 사용 (CHANGE: 모델 변경하려면 이 줄 변경)
-agent_args.flags.obs.use_html = False
+agent_args.flags.obs.use_html = True
 agent_args.flags.obs.use_ax_tree = True      # HTML 대신 접근성 트리만 사용
 agent_args.flags.max_ax_tree_depth = 10
 agent_args.flags.add_clickable_area_to_ax_tree = True
