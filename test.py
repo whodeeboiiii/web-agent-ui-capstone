@@ -49,9 +49,9 @@ from agentlab.agents import dynamic_prompting as dp
 from agentlab.llm.llm_utils import ParseError, parse_html_tags_raise
 
 # ── Config ────────────────────────────────────────────────────────────────────
-TASK_ID   = "browsergym/miniwob.find-greatest"   # ← CHANGE: 태스크 변경
+TASK_ID   = "browsergym/miniwob.scroll-text"   # ← CHANGE: 태스크 변경
 TASK_NAME = TASK_ID.split("miniwob.")[-1]
-MAX_STEPS = 15                                          # ← CHANGE: 에이전트 최대 스텝 수
+MAX_STEPS = 20                                          # ← CHANGE: 에이전트 최대 스텝 수
 MODEL     = "gpt-4o-mini"                              # ← CHANGE: LLM 모델 변경
 
 # ── Logging ───────────────────────────────────────────────────────────────────
@@ -147,6 +147,9 @@ def _format_a11y_tree(node: dict, depth: int = 0) -> str:
         return "\n".join(parts)
     pad  = "  " * depth + "- "
     line = pad + role + (f' "{name}"' if name else "")
+    val = node.get("value")
+    if val:
+        line += f" value='{val}'"
     props = []
     if node.get("focused"):
         props.append("focused")
@@ -225,6 +228,7 @@ def _inject_and_snapshot(page) -> str:
     """Inject AWI protocol into the DOM and return formatted accessibility snapshot."""
     _pre_extract(page, tags_to_mark="standard_html", lenient=True)
     page.evaluate(_AWI_JS)
+
     tree = page.accessibility.snapshot(interesting_only=True)
     if tree is None:
         return "(accessibility snapshot unavailable)"

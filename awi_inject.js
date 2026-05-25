@@ -14,9 +14,10 @@
  *   1. SVI scroll-box flattening (before pruning)
  *   2. Slider discrete +/- buttons
  *   3. MiniWob span.alink → role=link (before pruning)
- *   4. Viewport pruning (팀원; skips span.alink)
+ *   4. Viewport pruning (팀원; skips span.alink, position:absolute/fixed overlays)
  *   4b. Un-hide span.alink targets hidden via ancestor pruning
- *   5. Metadata augmentation (재후님/script1 + bid)
+ *   5. Metadata augmentation (재후님/script1 + bid + tabindex)
+ *   5b. (REMOVED — graphic_object labeling caused parent name contamination)
  *   6. BrowserGym SOM pass
  *   7. Virtual pagination button (팀원)
  */
@@ -62,8 +63,6 @@
         var bid = el.getAttribute('bid');
         if (bid) tags += ' [AWI: bid=' + bid + ']';
         if (tag === 'input' && el.type) tags += ' [AWI: input_type=' + el.type + ']';
-        // Bug fix: expose live input value so LLM can confirm its own fill() actions.
-        if (tag === 'input' && el.value) tags += ' [AWI: value=' + el.value + ']';
         // Names avoid "scroll*" so the LLM does not map these to scroll(delta_x, delta_y).
         if (tag === 'textarea' && el.scrollHeight > el.clientHeight) {
             tags += ' [AWI: clipped_content=true]';
@@ -85,8 +84,7 @@
             return stripAwiTags(el.id || el.name || 'textarea');
         }
         if (tag === 'input') {
-            // Bug fix: prioritize el.value over aria-label.
-            return stripAwiTags(el.value || el.getAttribute('aria-label') || '');
+            return stripAwiTags(el.getAttribute('aria-label') || '');
         }
         return stripAwiTags(
             el.getAttribute('aria-label') || el.innerText || el.value || ''
@@ -94,8 +92,18 @@
     }
 
     function applyAwiLabel(el, tag) {
-        if ((el.hasAttribute('onclick') || el.hasAttribute('data-awi-clickable')) && tag !== 'button' && tag !== 'a') {
+        // Promote to role=button only if no semantic role already exists.
+        // Elements like h3[role="tab"] must keep their existing role.
+        if ((el.hasAttribute('onclick') || el.hasAttribute('data-awi-clickable')) &&
+            tag !== 'button' && tag !== 'a' && !el.hasAttribute('role')) {
             el.setAttribute('role', 'button');
+        }
+        // <a> without href has no native link role (HTML5: it's generic).
+        // MiniWob tasks (phone-book, etc.) use <a> + jQuery .on('click') without href.
+        // Chromium's a11y engine ignores explicit role="link" on <a> elements —
+        // it only grants the link role when href is present. So we add a dummy href.
+        if (tag === 'a' && !el.hasAttribute('href')) {
+            el.setAttribute('href', 'javascript:void(0)');
         }
         var base = ariaLabelBase(el, tag);
         el.setAttribute('aria-label', (base + ' ' + buildAwiMeta(el, tag)).trim());
@@ -153,6 +161,7 @@
     }
 
     // ── 4. [팀원] viewport pruning — never hide span.alink (click-tab targets) ─
+
     var allElements = document.querySelectorAll(
         'button, a, input, textarea, select, div, span, [role="button"]'
     );
@@ -192,6 +201,10 @@
     for (var p = 0; p < iconCandidates.length; p++) {
         var pc = iconCandidates[p];
         if (pc.hasAttribute('role')) continue; // already promoted in a prior step
+        // Skip icon spans inside native interactive elements — they are decoration,
+        // not separate click targets. Promoting them triggers Step 6b deduplication
+        // which wrongly demotes the real parent button (e.g. jQuery UI dialog close).
+        if (pc.closest('button, a, input, select, textarea')) continue;
         var pcStyle = window.getComputedStyle(pc);
         var isCssIcon = (pcStyle.content || '').indexOf('url') !== -1;
         var isPointer = pcStyle.cursor === 'pointer';
@@ -202,38 +215,30 @@
     }
 
     // ── 5. [재후님] metadata on visible interactives (+ bid for BrowserGym) ─
-    // span[bid] removed: non-interactive bid spans are handled in step 5b below.
+    // Detects interactive elements via: standard HTML tags, onclick, data-awi-clickable,
+    // and [tabindex] for ARIA widget roles (e.g. h3[role="tab"][tabindex="0"]).
+    // Note: _pre_extract() does NOT stamp `clickable` attribute — that comes from
+    // BrowserGym's full CDP pipeline which test.py does not run.
     var visibleInteractiveElements = document.querySelectorAll(
         'a:not([aria-hidden]), button:not([aria-hidden]), ' +
         'input:not([aria-hidden]), textarea:not([aria-hidden]), ' +
         'select:not([aria-hidden]), ' +
         '[onclick]:not([aria-hidden]), ' +
-        '[data-awi-clickable]:not([aria-hidden])'
+        '[data-awi-clickable]:not([aria-hidden]), ' +
+        '[tabindex]:not([tabindex="-1"]):not([aria-hidden])'
     );
     for (var j = 0; j < visibleInteractiveElements.length; j++) {
         var el = visibleInteractiveElements[j];
         applyAwiLabel(el, el.tagName.toLowerCase());
     }
 
-    // ── 5b. Non-interactive bid containers → graphic_object ──────────────────
-    // BrowserGym stamps bid on all elements including decorative containers
-    // (span, div). These are NOT clickable — label them as graphic objects so
-    // the LLM can see them in the structure without mistaking them for targets.
-    // No clickable=True, no bid in the label (not an action target).
-    var containerEls = document.querySelectorAll(
-        'span[bid]:not([aria-hidden]):not(.alink):not([onclick]):not([data-awi-clickable]), ' +
-        'div[bid]:not([aria-hidden]):not([data-awi-clickable])'
-    );
-    for (var c = 0; c < containerEls.length; c++) {
-        var cel = containerEls[c];
-        // Skip if already promoted to an interactive role (e.g. span.alink → role=link)
-        if (cel.hasAttribute('role')) continue;
-        // Skip if already labeled by step 5 (interactive elements)
-        var existingLabel = cel.getAttribute('aria-label') || '';
-        if (existingLabel.indexOf('[AWI: clickable=True]') !== -1) continue;
-        var celCls = typeof cel.className === 'string' ? cel.className.trim().replace(/\s+/g, ' ') : '';
-        cel.setAttribute('aria-label', '[AWI: graphic_object]' + (celCls ? ' [AWI: class=' + celCls + ']' : ''));
-    }
+    // Step 5b (graphic_object labeling) REMOVED.
+    // Setting aria-label on non-interactive containers (span[bid], div[bid])
+    // contaminates parent elements' accessible names via WAI-ARIA name computation.
+    // E.g. <h3 role="tab"> inherits child <span>'s "[AWI: graphic_object]" label,
+    // overwriting the correct name "Section #24" with garbage.
+    // Decorative containers without roles are correctly omitted by
+    // Playwright's interesting_only=True — no AWI labeling needed.
 
     // ── 6. BrowserGym SOM: elements flagged set_of_marks=1 ────────────────────
     var somEls = document.querySelectorAll(
