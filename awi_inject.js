@@ -161,7 +161,6 @@
     }
 
     // ── 4. [팀원] viewport pruning — never hide span.alink (click-tab targets) ─
-
     var allElements = document.querySelectorAll(
         'button, a, input, textarea, select, div, span, [role="button"]'
     );
@@ -229,7 +228,35 @@
     );
     for (var j = 0; j < visibleInteractiveElements.length; j++) {
         var el = visibleInteractiveElements[j];
-        applyAwiLabel(el, el.tagName.toLowerCase());
+        var tag = el.tagName ? el.tagName.toLowerCase() : '';
+
+        // 1. 기본 라벨링
+        applyAwiLabel(el, tag);
+
+        // 2. 동적 상태값 추출 (value는 Playwright snapshot이 이미 제공하므로 제외)
+        var stateStr = "";
+
+        if (tag === 'input') {
+            var type = el.type ? el.type.toLowerCase() : 'text';
+            if (type === 'checkbox' || type === 'radio') {
+                stateStr = el.checked ? ' [AWI: checked=True]' : ' [AWI: checked=False]';
+            }
+        }
+        else if (tag === 'select') {
+            if (el.options && el.selectedIndex >= 0) {
+                stateStr = ' [AWI: selected="' + el.options[el.selectedIndex].text + '"]';
+            }
+        }
+
+        if (el.hasAttribute('aria-expanded')) {
+            stateStr += ' [AWI: expanded=' + el.getAttribute('aria-expanded') + ']';
+        }
+
+        // 3. 상태값이 있으면 기존 aria-label 끝에 추가
+        if (stateStr !== "") {
+            var currentLabel = el.getAttribute('aria-label') || '';
+            el.setAttribute('aria-label', currentLabel + stateStr);
+        }
     }
 
     // Step 5b (graphic_object labeling) REMOVED.
